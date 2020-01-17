@@ -19,37 +19,41 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     
-    private View view1, view2;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // view1 = getLayoutInflater().inflate(R.layout.activity_main, null);
-        // view2 = getLayoutInflater().inflate(R.layout.layout2, null);
         setContentView(R.layout.activity_main);
+    
+        drawer = findViewById(R.id.drawer_layout);
         
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        
+        fab = findViewById(R.id.fab);
+        
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Les girafes sont sournoise, elles préparent un coup monté !", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Les girafes sont sournoise, elles préparent un coup monté !", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
     }
     
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -81,23 +85,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            Toast.makeText(getApplicationContext(), "T pas ouf", Toast.LENGTH_SHORT).show();
+            
         } else if (id == R.id.nav_slideshow) {
-        
+            Toast.makeText(getApplicationContext(), "T pas super", Toast.LENGTH_SHORT).show();
+            
         } else if (id == R.id.nav_gallery) {
-            //setContentView(R.layout.activity_gallery);
+            Toast.makeText(getApplicationContext(), "T pas génial", Toast.LENGTH_SHORT).show();
             
         } else if (id == R.id.nav_tools) {
-            Toast.makeText(getApplicationContext(), "T moche", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "T pas beau", Toast.LENGTH_SHORT).show();
+            
         } else if (id == R.id.nav_send) {
-        
+            Toast.makeText(getApplicationContext(), "T pas cool", Toast.LENGTH_SHORT).show();
         }
         
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
