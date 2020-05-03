@@ -12,6 +12,5 @@
     <string name="menu_home">Accueil</string>
     <string name="menu_gallery">Galerie</string>
     <string name="menu_settings">Paramètres</string>
-    <string name="menu_contact_title">Nous Contacter</string>
     <string name="menu_contact">Contact</string>
 </resources>
