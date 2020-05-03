@@ -1,5 +1,6 @@
 package dev.hydrosnow.wankul;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Toast;
+
+import java.util.Arrays;
+
+import dev.hydrosnow.wankul.modele.Fromage;
+import dev.hydrosnow.wankul.vuemodele.VM_Fromage;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     
@@ -48,6 +54,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    
+        final AppCompatActivity activity = this;
+        final AsyncTask<Void, Void, Fromage[]> task = new AsyncTask<Void, Void, Fromage[]>() {
+            @Override
+            protected Fromage[] doInBackground(Void... voids) {
+                try {
+                    final Fromage[] fromages = new VM_Fromage(activity).get();
+                    return fromages;
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        
+            protected void onPostExecute(final Fromage[] fromages) {
+                final String str = Arrays.deepToString(fromages);
+                System.out.println(str);
+            }
+        };
+    
+        task.execute();
     }
     
     @Override
