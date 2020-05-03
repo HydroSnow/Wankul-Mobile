@@ -1,16 +1,17 @@
 <resources>
     <string name="app_name">Wankul</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="nav_header_title">Nom Utilisateur</string>
     <string name="nav_header_subtitle">Mail Utilisateur</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Options</string>
 
     <string name="menu_home">Accueil</string>
-    <string name="menu_gallery">Gallerie</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_gallery">Galerie</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_contact_title">Nous Contacter</string>
+    <string name="menu_contact">Contact</string>
 </resources>

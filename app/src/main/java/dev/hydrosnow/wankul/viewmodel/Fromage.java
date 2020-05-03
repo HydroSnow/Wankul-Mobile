@@ -1,4 +1,4 @@
-package dev.hydrosnow.wankul.modele;
+package dev.hydrosnow.wankul.viewmodel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +16,7 @@ public class Fromage {
 		this.id = id;
 	}
 	
-	public Fromage(final JSONObject obj) throws JSONException {
+	Fromage(final JSONObject obj) throws JSONException {
 		id = obj.getInt("id");
 		nom = obj.getString("nom");
 		origine = obj.getString("origine");

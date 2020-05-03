@@ -1,4 +1,4 @@
-package dev.hydrosnow.wankul.vuemodele;
+package dev.hydrosnow.wankul;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-public class VM_Utils {
+public class HttpUtils {
 	private static final int BUFFER_SIZE = 1024;
 	private static final Charset CHARSET = StandardCharsets.UTF_8;
 	private static String HEADER_ACCEPT = "application/json";
