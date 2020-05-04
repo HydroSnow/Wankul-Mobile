@@ -1,13 +1,24 @@
 package dev.hydrosnow.wankul.activities;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -105,7 +116,7 @@ public class WankulActivity extends AppCompatActivity implements NavigationView.
 				final Fromage[] fromages = new FromageMV(api_server).get();
 				return new Result(context, grid, fromages);
 				
-			} catch (final Exception e) {
+			} catch (final IOException | JSONException e) {
 				e.printStackTrace();
 				return null;
 			}
@@ -113,9 +124,36 @@ public class WankulActivity extends AppCompatActivity implements NavigationView.
 			
 		@Override
 		protected void onPostExecute(final Result result) {
-			final ArrayAdapter<Fromage> adapter = new ArrayAdapter<>(result.context, android.R.layout.simple_list_item_1, result.fromages);
-			result.grid.setAdapter(adapter);
-			System.out.println("[BIG-CHUNGUS] Finished query of " + result.fromages.length + " items.");
+			if (result != null) {
+				final FromageAdapter adapter = new FromageAdapter(result.context, R.layout.item_fromage, result.fromages);
+				result.grid.setAdapter(adapter);
+				System.out.println("[BIG-CHUNGUS] Finished query of " + result.fromages.length + " items.");
+			}
+		}
+		
+		private static class FromageAdapter extends ArrayAdapter<Fromage> {
+			public FromageAdapter(@NonNull final Context context, final int resource, @NonNull final Fromage[] objects) {
+				super(context, resource, objects);
+			}
+			
+			@Override
+			public View getView(final int position, final View convertView, final ViewGroup parent) {
+				View view = convertView;
+				if (convertView == null) {
+					view = LayoutInflater.from(getContext()).inflate(R.layout.item_fromage, parent, false);
+				}
+				final Fromage fromage = getItem(position);
+				final TextView textView = view.findViewById(R.id.fromage_name);
+				final ImageView imageView = view.findViewById(R.id.fromage_thumbnail);
+				
+				final String nom = fromage.getNom();
+				textView.setText(nom);
+				
+				final String url = fromage.getImg();
+				Picasso.get().load(url).into(imageView);
+				
+				return view;
+			}
 		}
 		
 		private static class Result {
