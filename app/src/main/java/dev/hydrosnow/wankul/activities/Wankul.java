@@ -6,13 +6,8 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
-
-import org.json.JSONException;
-
-import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -25,8 +20,6 @@ import dev.hydrosnow.wankul.viewmodel.Fromage;
 import dev.hydrosnow.wankul.viewmodel.FromageMV;
 
 public class Wankul extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-	private final Wankul self = this;
-	
 	private DrawerLayout drawer;
 	private FrameLayout frame;
 	private NavigationView navigationView;
@@ -50,12 +43,12 @@ public class Wankul extends AppCompatActivity implements NavigationView.OnNaviga
 		setSupportActionBar(toolbar);
 		
 		// ajouter un bouton à la toolbar
-		final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(self, drawer, toolbar, R.string.drawer_open_desc, R.string.drawer_close_desc);
+		final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open_desc, R.string.drawer_close_desc);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 		
 		// ajouter un event listener
-		navigationView.setNavigationItemSelectedListener(self);
+		navigationView.setNavigationItemSelectedListener(this);
 		
 		// lancer sur l'accueil
 		navigationView.setCheckedItem(R.id.drawer_home);
@@ -87,36 +80,54 @@ public class Wankul extends AppCompatActivity implements NavigationView.OnNaviga
 		} else if (id == R.id.drawer_gallery) {
 			frame.removeAllViews();
 			
-			final GridView grid = new GridView(self);
+			final GridView grid = new GridView(this);
 			grid.setNumColumns(2);
 			frame.addView(grid);
 			
-			final AsyncTask<Void, Void, Fromage[]> task = new AsyncTask<Void, Void, Fromage[]>() {
-				@Override
-				protected Fromage[] doInBackground(Void... voids) {
-					try {
-						final Fromage[] fromages = new FromageMV(api_server).get();
-						return fromages;
-					} catch (IOException | JSONException e) {
-						e.printStackTrace();
-						return null;
-					}
-				}
-				
-				@Override
-				protected void onPostExecute(final Fromage[] fromages) {
-					final ArrayAdapter<Fromage> adapter = new ArrayAdapter<Fromage>(self, android.R.layout.simple_list_item_1, fromages);
-					grid.setAdapter(adapter);
-					System.out.println("[BIG-CHUNGUS] Finished query of " + fromages.length + " items.");
-				}
-			};
-			task.execute();
-			
+			final GetFromageAsyncTask task = new GetFromageAsyncTask();
+			task.execute(this, api_server, grid);
 			
 		} else if (id == R.id.drawer_contact) {
 			frame.removeAllViews();
 			getLayoutInflater().inflate(R.layout.wankul_contact, frame);
 			
+		}
+	}
+	
+	private static class GetFromageAsyncTask extends AsyncTask<Object, Void, GetFromageAsyncTask.Result> {
+		@Override
+		protected Result doInBackground(final Object... objects) {
+			final Wankul context = (Wankul) objects[0];
+			final String api_server = (String) objects[1];
+			final GridView grid = (GridView) objects[2];
+			
+			try {
+				final Fromage[] fromages = new FromageMV(api_server).get();
+				return new Result(context, grid, fromages);
+				
+			} catch (final Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+			
+		@Override
+		protected void onPostExecute(final Result result) {
+			final ArrayAdapter<Fromage> adapter = new ArrayAdapter<>(result.context, android.R.layout.simple_list_item_1, result.fromages);
+			result.grid.setAdapter(adapter);
+			System.out.println("[BIG-CHUNGUS] Finished query of " + result.fromages.length + " items.");
+		}
+		
+		private static class Result {
+			private final Wankul context;
+			private final GridView grid;
+			private final Fromage[] fromages;
+			
+			private Result(final Wankul context, final GridView grid, final Fromage[] fromages) {
+				this.context = context;
+				this.grid = grid;
+				this.fromages = fromages;
+			}
 		}
 	}
 }

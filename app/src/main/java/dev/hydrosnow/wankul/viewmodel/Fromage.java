@@ -28,7 +28,7 @@ public class Fromage {
 	
 	@Override
 	public String toString() {
-		return "#" + id + "(" + nom + ")";
+		return "#" + id + " - " + nom;
 	}
 	
 	public int getId() {
