@@ -19,7 +19,7 @@ import dev.hydrosnow.wankul.R;
 import dev.hydrosnow.wankul.viewmodel.Fromage;
 import dev.hydrosnow.wankul.viewmodel.FromageMV;
 
-public class Wankul extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class WankulActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	private DrawerLayout drawer;
 	private FrameLayout frame;
 	private NavigationView navigationView;
@@ -29,7 +29,7 @@ public class Wankul extends AppCompatActivity implements NavigationView.OnNaviga
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.wankul);
+		setContentView(R.layout.activity);
 		
 		// récupérer nos variables
 		drawer = findViewById(R.id.drawer_layout);
@@ -75,7 +75,7 @@ public class Wankul extends AppCompatActivity implements NavigationView.OnNaviga
 	public void changeFrame(final int id) {
 		if (id == R.id.drawer_home) {
 			frame.removeAllViews();
-			getLayoutInflater().inflate(R.layout.wankul_home, frame);
+			getLayoutInflater().inflate(R.layout.sub_home, frame);
 			
 		} else if (id == R.id.drawer_gallery) {
 			frame.removeAllViews();
@@ -89,7 +89,7 @@ public class Wankul extends AppCompatActivity implements NavigationView.OnNaviga
 			
 		} else if (id == R.id.drawer_contact) {
 			frame.removeAllViews();
-			getLayoutInflater().inflate(R.layout.wankul_contact, frame);
+			getLayoutInflater().inflate(R.layout.sub_contact, frame);
 			
 		}
 	}
@@ -97,7 +97,7 @@ public class Wankul extends AppCompatActivity implements NavigationView.OnNaviga
 	private static class GetFromageAsyncTask extends AsyncTask<Object, Void, GetFromageAsyncTask.Result> {
 		@Override
 		protected Result doInBackground(final Object... objects) {
-			final Wankul context = (Wankul) objects[0];
+			final WankulActivity context = (WankulActivity) objects[0];
 			final String api_server = (String) objects[1];
 			final GridView grid = (GridView) objects[2];
 			
@@ -119,11 +119,11 @@ public class Wankul extends AppCompatActivity implements NavigationView.OnNaviga
 		}
 		
 		private static class Result {
-			private final Wankul context;
+			private final WankulActivity context;
 			private final GridView grid;
 			private final Fromage[] fromages;
 			
-			private Result(final Wankul context, final GridView grid, final Fromage[] fromages) {
+			private Result(final WankulActivity context, final GridView grid, final Fromage[] fromages) {
 				this.context = context;
 				this.grid = grid;
 				this.fromages = fromages;
