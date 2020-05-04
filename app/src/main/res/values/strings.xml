@@ -2,10 +2,11 @@
     <string name="app_name">Wankul</string>
 
     <string name="welcome_text">Bienvenue !</string>
+    <string name="email_text">E-mail: wankul@hydrosnow.dev</string>
 
     <string name="menu_home">Accueil</string>
     <string name="menu_gallery">Galerie</string>
-    <string name="menu_settings">Paramètres</string>
+    <string name="menu_contact">Contact</string>
 
     <string name="drawer_open_desc">Menu de navigation ouvert</string>
     <string name="drawer_close_desc">Menu de navigation fermé</string>

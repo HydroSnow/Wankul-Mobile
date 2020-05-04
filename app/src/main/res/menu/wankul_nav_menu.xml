@@ -16,9 +16,9 @@
             android:title="@string/menu_gallery" />
 
         <item
-            android:id="@+id/drawer_settings"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_settings" />
+            android:id="@+id/drawer_contact"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/menu_contact" />
     </group>
 
 </menu>
